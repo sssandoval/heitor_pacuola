@@ -1,5 +1,9 @@
-@import url('https://fonts.cdnfonts.com/css/futura-pt');
-@import url('https://fonts.cdnfonts.com/css/arsenica-antiqua-alt');
+/* As fontes Futura PT e Arsenica Antiqua Alt foram removidas: elas eram
+   importadas via @import (bloqueando a renderização e baixando arquivos
+   de fonte inteiros) mas nunca eram usadas em nenhuma declaração
+   font-family — --display e --support já usam apenas fontes de sistema.
+   Remover esse @import é o ganho de performance mais importante desta
+   página, principalmente em conexões móveis. */
 
   :root{
     --orange: #14078a;
@@ -13,6 +17,7 @@
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   html,body{ background:var(--cream); color:var(--ink); font-family:var(--support); overflow-x:hidden; }
 
 html {
@@ -23,6 +28,7 @@ html {
 body {
     opacity: 0;
     animation: aparecer .15s forwards;
+    
 }
 
 @keyframes aparecer {
@@ -43,10 +49,13 @@ body {
   .hero{
     position:relative;
     min-height:100vh;
+    min-height:100svh; /* evita "pulo" causado pela barra de endereço em celulares */
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     padding:34px 34px 46px;
+    padding-top:max(34px, env(safe-area-inset-top));
+    padding-bottom:max(46px, env(safe-area-inset-bottom));
     overflow:hidden;
     background:
       radial-gradient(120% 90% at 12% 8%, #0804fc 0%, transparent 55%),
@@ -96,9 +105,13 @@ body {
     height:auto;
     object-fit:cover;
   }
-  .frame:hover {
-    transform: scale(1.05);
-    cursor: grab;
+  /* hover só faz sentido em dispositivos com mouse; em touch evita
+     recálculo de estilo desnecessário ao tocar na tela */
+  @media (hover:hover) and (pointer:fine){
+    .frame:hover {
+      transform: scale(1.05);
+      cursor: grab;
+    }
   }
 
   .frame.dragging{
@@ -141,7 +154,10 @@ body {
     border:1.5px solid var(--cream);
     background-color: transparent;
     border-radius:999px;
-    padding:10px 28px;
+    padding:14px 28px; /* alvo de toque com pelo menos 44px de altura */
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
     transition:
         background-color .50s ease,
         transform .50s ease;
@@ -170,7 +186,7 @@ body {
   h2.section-title{
     font-family:var(--display);
     font-weight:400;
-    font-size:clamp(36px, 5vw, 58px);
+    font-size:clamp(32px, 5vw, 58px);
     line-height:1.04;
     color:var(--ink);
     margin-bottom:26px;
@@ -198,14 +214,20 @@ body {
   .about-stats{
     display:grid;
     grid-template-columns: repeat(2,1fr);
-    gap:18px;
+    gap:30px;
+    align-items:center;
+    justify-content:center;
   }
   .stat{
     border:1.5px solid var(--orange);
     border-radius:18px;
-    padding:22px 20px;
+    padding:70px 35px;
     background:#fff;
     user-select: none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
   }
   .stat .num{
     font-family:var(--display);
@@ -244,6 +266,7 @@ body {
   .service-card{
     margin-right: 3px;
     background: rgba(255, 255, 255, 0.06);
+    /* o blur pesado é reduzido em telas móveis (ver media query abaixo) */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius:22px;
@@ -253,10 +276,12 @@ body {
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    transition: all .50s ease;
+    transition: background .35s ease, transform .35s ease;
     user-select: none;
   }
-  .service-card:hover{ background: linear-gradient(160deg, var(--orange), var(--magenta)); transform:scale(1.01); transition: all .50s ease; }
+  @media (hover:hover) and (pointer:fine){
+    .service-card:hover{ background: linear-gradient(160deg, var(--orange), var(--magenta)); transform:scale(1.01); }
+  }
   .service-card h3{
     font-family:var(--display);
     font-weight:400;
@@ -286,6 +311,7 @@ body {
   }
   .project-thumb{
     height:auto;
+    aspect-ratio: 4 / 3; /* reserva espaço e evita layout shift enquanto a imagem carrega */
     display:flex;
     align-items:center;
     justify-content:center;
@@ -338,7 +364,7 @@ body {
   h2.contact-title{
     font-family:var(--display);
     font-weight:400;
-    font-size:clamp(46px,7vw,82px);
+    font-size:clamp(40px,7vw,82px);
     line-height:1.02;
     max-width:11ch;
     user-select: none;
@@ -374,48 +400,95 @@ body {
     user-select: none;
   }
 
+    .socials{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+    }
+
     .social-btn {
-        display: inline-block;
+        display: inline-flex;
+        align-items:center;
+        min-height:44px;
         color: var(--cream);
         border: 1.5px solid var(--cream);
         background: transparent;
         border-radius: 999px;
         padding: 10px 28px;
-        margin-left: 10px;
         text-decoration: none;
-        transition: all .35s ease;
+        transition: background .35s ease, transform .35s ease;
         user-select: none;
     }
 
     .social-btn-whats {
-        display: inline-block;
+        display: inline-flex;
+        align-items:center;
+        min-height:44px;
         color: var(--cream);
         border: 1.5px solid var(--cream);
         background: transparent;
         border-radius: 999px;
         padding: 10px 28px;
-        margin-left: 10px;
         text-decoration: none;
-        transition: all .35s ease;
+        transition: background .35s ease, transform .35s ease;
         user-select: none;
     }
 
+  @media (hover:hover) and (pointer:fine){
     .social-btn-whats:hover {
         background: rgba(11, 235, 60, 0.8);
         transform: scale(1.1) translateY(-3px);
     }
 
-
     .social-btn:hover {
         background: rgba(255,246,239,.1);
         transform: scale(1.1) translateY(-3px);
     }
+  }
 
   @media (max-width:860px){
     .about-grid{ grid-template-columns:1fr; gap:40px; }
     .service-grid{ grid-template-columns:repeat(2,1fr); }
     .project-grid{ grid-template-columns:1fr; }
     section{ padding:80px 6vw; }
+  }
+
+  /* Ajustes adicionais para telas pequenas de celular */
+  @media (max-width:480px){
+    section{ padding:64px 6vw; }
+    .hero{ padding:22px 20px 34px; }
+    h2.section-title{ font-size:clamp(28px,8vw,36px); }
+    .about p.lead{ font-size:16.5px; }
+    .about-stats{ grid-template-columns:repeat(2,1fr); gap:16px; }
+    .stat{ padding:36px 18px; }
+    .stat .num{ font-size:28px; }
+    .service-grid{ grid-template-columns:1fr; }
+    .service-card{ min-height:auto; margin-right:0; }
+    .project-body h3{ font-size:20px; }
+    h2.contact-title{ font-size:clamp(34px,10vw,46px); }
+    .contact-row{ align-items:flex-start; }
+    .social-btn, .social-btn-whats{ padding:10px 20px; }
+  }
+
+  /* Em telas de toque/menores, o backdrop-filter (blur) é um dos
+     efeitos mais caros para a GPU do celular: reduz o custo mantendo
+     a estética próxima do original */
+  @media (max-width:600px), (pointer:coarse){
+    .service-card{
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+  }
+
+  /* Respeita quem prefere menos movimento e evita trabalho de
+     animação desnecessário */
+  @media (prefers-reduced-motion: reduce){
+    *{
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   .project-card{

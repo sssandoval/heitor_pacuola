@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#14078a">
 <meta name="description" content="
 Fisioterapeuta em José Bonifácio especializado em
 fisioterapia ortopédica, dores musculares,  e reabilitação.
@@ -23,8 +24,18 @@ Agende sua avaliação.
 }
 </script>
 <title>Fisioterapeuta em José Bonifácio | Heitor Pacuola</title>
+
+<!-- Preconecta cedo com os domínios externos usados pelos scripts -->
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+<!-- CSS crítico: sem @import de fontes externas não usadas (removidas) -->
 <link rel="preload" href="style.css" as="style">
 <link rel="stylesheet" href="style.css">
+
+<!-- Logo é a imagem principal da dobra inicial -->
+<link rel="preload" as="image" href="./img/logo_heitor.png" fetchpriority="high">
+
 <link rel="icon" type="image/png" href="./img/logo_heitor.png">
 </head>
 <body>
@@ -37,7 +48,7 @@ Agende sua avaliação.
     </div>
     <div class="hero-mid">
       <div class="frame">
-        <img src="./img/logo_heitor.png" alt="Logo Heitor Pacuola" class="image-p" draggable="false">
+        <img src="./img/logo_heitor.png" alt="Logo Heitor Pacuola" class="image-p" draggable="false" fetchpriority="high" decoding="async">
       </div>
     </div>
     <div class="hero-bottom">
@@ -131,7 +142,7 @@ Agende sua avaliação.
     <div class="project-grid">
       <div class="project-card">
         <div class="project-thumb p1">
-          <img class="project-image" src="./img/p1.png" alt="Fisioterapia esportiva em campo">
+          <img class="project-image" src="./img/p1.png" alt="Fisioterapia esportiva em campo" loading="lazy" decoding="async">
         </div>
         <div class="project-body">
           <div class="project-tag">Embasamento Científico e Prática Baseada em Evidências</div>
@@ -143,7 +154,7 @@ Cada protocolo aplicado no atendimento é pensado com base nas melhores evidênc
       </div>
       <div class="project-card">
         <div class="project-thumb p2">
-          <img class="project-image" src="./img/p2.png" alt="Fisioterapia esportiva em campo">
+          <img class="project-image" src="./img/p2.png" alt="Fisioterapia esportiva em campo" loading="lazy" decoding="async">
         </div>
         <div class="project-body">
           <div class="project-tag">Recovery Avançado e Tecnologia de Ponta</div>
@@ -155,7 +166,7 @@ Aliando tecnologia, conhecimento científico e experiência prática, desenvolvo
       </div>
       <div class="project-card">
         <div class="project-thumb p3">
-          <img class="project-image" src="./img/p3.png" alt="Fisioterapia esportiva em campo">
+          <img class="project-image" src="./img/p3.png" alt="Fisioterapia esportiva em campo" loading="lazy" decoding="async">
         </div>
         <div class="project-body">
           <div class="project-tag">Terapia Manual e Otimização do Movimento</div>
@@ -213,8 +224,9 @@ e qualidade de vida.
 
 </section>
 
-<script src="https://unpkg.com/lenis/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
-<script src="script.js"></script>
+<!-- Scripts carregados sem bloquear a renderização -->
+<script src="https://unpkg.com/lenis/dist/lenis.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>
