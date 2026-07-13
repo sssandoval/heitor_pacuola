@@ -85,6 +85,7 @@ body {
   .hero-mid{
     position:relative; z-index:2;
     flex:1;
+    min-height:0; /* permite que o filho encolha corretamente dentro do flex no mobile */
     display:flex;
     align-items:center;
     justify-content:center;
@@ -97,41 +98,25 @@ body {
     padding:1px 1px;
     text-align:center;
     background:transparent;
-    transition: transform .25s ease;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    height:auto;
-    object-fit:cover;
-  }
-  /* hover só faz sentido em dispositivos com mouse; em touch evita
-     recálculo de estilo desnecessário ao tocar na tela */
-  @media (hover:hover) and (pointer:fine){
-    .frame:hover {
-      transform: scale(1.05);
-      cursor: grab;
-    }
   }
 
-  .frame.dragging{
-    cursor: grabbing;
-    transition: none;
-}
-  .frame:active{
-    cursor: grabbing;
-    }
-
-  .imagem-p{
-    max-width:100%;
+  .image-p{
+    display:block;
+    width:100%;
     height:auto;
+    max-height:85svh; /* rede de segurança apenas para imagens muito verticais no celular */
     object-fit:cover;
     border-radius:26px;
-    pointer-events:none;
     transition: transform .25s ease;
-    display:block;
-    align-items:center;
-    justify-content:center;
+    cursor:grab;
+  }
+  .image-p.dragging{
+    cursor:grabbing;
+    transition:none;
   }
 
   h1.name{
