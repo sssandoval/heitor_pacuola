@@ -534,3 +534,59 @@ body {
     height:100%;
     object-fit:fill;
 }
+
+/* ---------- BOTÃO FLUTUANTE WHATSAPP ---------- */
+.whats-float{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    bottom:max(22px, env(safe-area-inset-bottom));
+    z-index:999;
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#25D366;
+    color:#fff;
+    box-shadow:0 8px 24px rgba(0,0,0,.28);
+    text-decoration:none;
+    animation: whatsFloatPulse 2.2s ease-in-out infinite;
+    will-change: transform;
+}
+.whats-float svg{
+    width:30px;
+    height:30px;
+    position:relative;
+    z-index:2;
+}
+/* anel que "pulsa" chamando atenção, separado do botão para não
+   distorcer o ícone */
+.whats-float-ping{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:#25D366;
+    opacity:.65;
+    animation: whatsFloatPing 2.2s ease-out infinite;
+}
+@keyframes whatsFloatPulse{
+    0%, 100%{ transform:scale(1); }
+    50%{ transform:scale(1.08); }
+}
+@keyframes whatsFloatPing{
+    0%{ transform:scale(1); opacity:.55; }
+    80%{ transform:scale(1.9); opacity:0; }
+    100%{ transform:scale(1.9); opacity:0; }
+}
+@media (hover:hover) and (pointer:fine){
+    .whats-float:hover{ box-shadow:0 10px 30px rgba(0,0,0,.35); }
+}
+@media (max-width:480px){
+    .whats-float{ width:54px; height:54px; right:16px; bottom:16px; bottom:max(16px, env(safe-area-inset-bottom)); }
+    .whats-float svg{ width:27px; height:27px; }
+}
+@media (prefers-reduced-motion: reduce){
+    .whats-float, .whats-float-ping{ animation:none; }
+}
