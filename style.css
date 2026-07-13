@@ -93,6 +93,8 @@ body {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    height:auto;
+    object-fit:cover;
   }
   .frame:hover {
     transform: scale(1.05);
@@ -108,12 +110,13 @@ body {
     }
 
   .imagem-p{
-    width:100%;
+    max-width:100%;
     height:auto;
+    object-fit:cover;
     border-radius:26px;
     pointer-events:none;
     transition: transform .25s ease;
-    display:flex;
+    display:block;
     align-items:center;
     justify-content:center;
   }
