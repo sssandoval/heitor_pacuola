@@ -285,7 +285,7 @@ body {
     border:1.5px solid rgba(43,14,20,.08);
   }
   .project-thumb{
-    height:300px;
+    height:auto;
     display:flex;
     align-items:center;
     justify-content:center;
